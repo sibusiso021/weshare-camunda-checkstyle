@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WeShare</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/normalize.css">
+</head>
+
+<body>
+
+
+<div id="app">
+    <h1>WeShare</h1>
+    <p>You are not logged in!</p>
+    <main>
+        <div>
+            <form id="login-form">
+                <label for="email">Enter your email</label>
+                <input name="email" id="email" type="email" id="login" autofocus required>
+                <input id="submit" type="submit" value="Login"/>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script id="template" type="text/handlebars-template">
+    <h1>WeShare</h1>
+    <p id="user">{{userEmail}}</p>
+
+    <header>
+        <nav>
+            <a id="expenses" href="#/expenses">Expenses</a>
+            <a id="paymentrequests_sent" href="#/paymentrequests_sent">Payment Requests Sent</a>
+            <a id="paymentrequests_received" href="#/paymentrequests_received">Payment Request Received</a>
+            <a href="#/logout" id="logout">Logout {{userName}}</a>
+        </nav>
+    </header>
+
+
+    <div id="result">
+        <h2>My Expenses</h2>
+        <a href="/newexpense" id="add_expense">add a new expense</a>
+        
+        {{#if expenses}}
+            <table >
+                <thead>
+                <tr>
+                    <th>When</th>
+                    <th>What</th>
+                    <th>Amount Spent</th>
+                    <th>Payment Requested</th>
+                    <th>Payment Received</th>
+                    <th>Nett expense</th>
+                </tr>
+                </thead>
+                
+                <tbody> 
+                    {{#each expenses}}
+
+                        <tr>
+                            <td th:id="date_{{expenseId}}">{{this.date}}</td>
+                            <td ><a th:id="payment_request_{{expenseId}}" href="'/paymentrequest?expenseId={{expenseId}}">{{this.description}}</a></td>
+                            <td th:id="amount_{{expense.id}}">ZAR {{this.amount}}</td>
+                            <td th:id="request_{{expenseId}}">ZAR {{this.totalPaymentsRequested}}</td>
+                            <td th:id="received_{{expenseId}}">ZAR {{this.totalPaymentsReceived}}</td>
+                            <td th:id="nett_{{expenseId}}">ZAR {{this.nettAmount}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+
+                <tfoot>
+                    <td colspan="5">Total Expenses</td>
+                    <td id="grand_total">ZAR {{grandTotal}}.00</td>
+                </tfoot>
+            </table>
+            {{else}}
+            <h3 id="no_expenses">You don't have any expenses!</h3>
+        {{/if}}
+    </div>
+</script>
+
+
+<script id="payment-requests-sent-template" type="text/handlebars-template">
+    <section class="paymentRequestsSentList">
+    <h2>People that owe me</h2>
+    {{#if expenses}}
+        <table>
+            <thead>
+                <tr>
+                  <th>Who</th>
+                  <th>What</th>
+                  <th>Due In (Days)</th>
+                  <th>How Much</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each expenses}}
+                <tr>
+                    <td>{{userEmail}}</td>
+                    <td>Spha</td>
+                    <td>{{this.date}}</td>
+                    <td>ZAR {{this.amount}}.00</td>
+                  </tr>
+                {{/each}}
+            </tbody>
+            <tfoot>
+                <tr>
+                  <th colspan="3">Total Unpaid</th>
+                  <th id="grand_total">ZAR {{grandTotal}}.00</span></th>
+                </tr>
+                </tfoot>
+        </table>
+        {{else}}
+        <p id="no_payment_requests_sent">Nobody owes you anything!</p>
+    {{/if}}
+  </section>
+</script>
+
+<script id="error-template" type="text/handlebars-template">
+    <h2>Ooops! Something bad happened</h2>
+    <p>You should probably go back and try again.
+    And if that doesn't work, hold your breath and call a friend.</p>
+    <h3>This is what happened</h3>
+    <div class="error">{{statusText}}</div>
+    <h4>The fine print</h4>
+    <div class="stacktrace">Status {{status}}</div>
+</script>
+
+<script id="default-template" type="text/handlebars-template">
+    <h1>WeShare</h1>
+    <p>You are not logged in!</p>
+    
+</script>
+
+</body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+
+<!-- the vanilla-router library-->
+<script src="https://cdn.jsdelivr.net/npm/vanilla-router@1.2.8/index.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.min.js"></script>
+
+
+<script src="/javascript/app.js"></script>
+<script src="/javascript/app2.js"></script>
+</html>
