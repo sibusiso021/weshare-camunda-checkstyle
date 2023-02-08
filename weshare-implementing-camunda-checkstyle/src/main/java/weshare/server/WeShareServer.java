@@ -42,7 +42,6 @@ import static weshare.model.MoneyHelper.amountOf;
 public class WeShareServer {
     private static final String PUBLIC_DIR = "/public";
     private final Javalin appServer;
-
     public static void main(String[] args) {
         WeShareServer server = new WeShareServer();
         try {
